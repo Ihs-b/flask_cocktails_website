@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/styles.css">
+
+</head>
+<body>
+<h1>What would you like?</h1>
+{% if not x %}
+<form method="post" action="/cocktails">
+    {{ form.hidden_tag() and form.csrf_token }}
+    {{ form.drink }}
+    {{ form.alcohol }}
+</form>
+{% for d in drinks %}
+<p> {{ d }} : {{ drinks[d] }}</p>
+{% endfor %}
+{% if not y %}
+<h2>{{ error_message }}</h2>
+{%endif%}
+{% else %}
+<form method="post" action="/cocktails">
+    {{ form1.hidden_tag() and form.csrf_token }}
+    {{ form1.ingredient }}
+    {{ form1.ok }}
+</form>
+{% for drink in drinks %}
+{{ loop.index }}
+{% for x in drink %}
+<p>{{ x }} : {{ drink[x] }}</p>
+{% endfor %}
+{% endfor %}
+{{ pagination.links }}
+{% endif %}
+</body>
+</html>

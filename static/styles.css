@@ -1,0 +1,14 @@
+body{
+    color: white;
+    background: url("/static/cocktails.jpg") no-repeat;
+    background-size: cover;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.recipes{
+    background-color: plum;
+}
+
