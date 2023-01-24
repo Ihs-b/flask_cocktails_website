@@ -1,14 +1,36 @@
 from flask import Flask, render_template, url_for, redirect, request, blueprints
+from flask_sqlalchemy import SQLAlchemy
 import requests
 from forms import ChoiceForm, AgeSubmitForm, AlcoholForm
 from flask_wtf.csrf import CSRFProtect
 import os
 from flask_paginate import Pagination, get_page_parameter, get_page_args
 
+
+db = SQLAlchemy()
 app = Flask(__name__)
 csrf = CSRFProtect(app)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///alcohol_drinks.db"
+db.init_app(app)
+
+
+class Drinks(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    drink_name = db.Column(db.String, unique=True, nullable=False)
+    glass = db.Column(db.String, unique=True, nullable=False)
+    first_ingredient = db.Column(db.String, unique=True, nullable=False)
+    second_ingredient = db.Column(db.String, unique=True, nullable=False)
+    instructions = db.Column(db.String, unique=True, nullable=False)
+    drink_image = db.Column(db.String, unique=True, nullable=False)
+    first_ingredient_measurements = db.Column(db.String, unique=True, nullable=False)
+    second_ingredient_measurements = db.Column(db.String, unique=True, nullable=False)
+
+
+with app.app_context():
+    db.create_all()
+
 
 cocktail_url = 'https://www.thecocktaildb.com/api/json/v1/1/'
 
