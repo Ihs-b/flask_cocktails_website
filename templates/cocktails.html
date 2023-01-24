@@ -29,7 +29,14 @@
 {% for drink in drinks %}
 {{ loop.index }}
 {% for x in drink %}
-<p>{{ x }} : {{ drink[x] }}</p>
+<p>Drink name : {{ x.drink_name }}</p>
+<p>Glass : {{ x.glass }} </p>
+<p>first ingredient : {{ x.first_ingredient }} {{ x.first_ingredient__measurements }} </p>
+<p>second ingredient : {{ x.second_ingredient }} {{ x.second_ingredient__measurements }}</p>
+<p>third ingredient : {{ x.third_ingredient }} {{ x.third_ingredient__measurements }}</p>
+<p>fourth ingredient : {{ x.fourth_ingredient }} {{ x.fourth_ingredient__measurements }} </p>
+<p>Image : {{ x.drink_image }} </p>
+<p>How to make it : {{ x.instructions }} </p>
 {% endfor %}
 {% endfor %}
 {{ pagination.links }}
