@@ -4,42 +4,47 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/static/styles.css">
-
 </head>
 <body>
+<ul>
+    <li><a href="/">Home</a></li>
+</ul>
 <h1>What would you like?</h1>
-{% if not x %}
+{% if x %}
 <form method="post" action="/cocktails">
     {{ form.hidden_tag() and form.csrf_token }}
     {{ form.drink }}
     {{ form.alcohol }}
 </form>
-{% for d in drinks %}
-<p> {{ d }} : {{ drinks[d] }}</p>
-{% endfor %}
-{% if not y %}
-<h2>{{ error_message }}</h2>
-{%endif%}
 {% else %}
 <form method="post" action="/cocktails">
-    {{ form1.hidden_tag() and form.csrf_token }}
+    {{ form1.hidden_tag() and form1.csrf_token }}
     {{ form1.ingredient }}
     {{ form1.ok }}
 </form>
-{% for drink in drinks %}
-{{ loop.index }}
-{% for x in drink %}
-<p>Drink name : {{ x.drink_name }}</p>
-<p>Glass : {{ x.glass }} </p>
-<p>first ingredient : {{ x.first_ingredient }} {{ x.first_ingredient__measurements }} </p>
-<p>second ingredient : {{ x.second_ingredient }} {{ x.second_ingredient__measurements }}</p>
-<p>third ingredient : {{ x.third_ingredient }} {{ x.third_ingredient__measurements }}</p>
-<p>fourth ingredient : {{ x.fourth_ingredient }} {{ x.fourth_ingredient__measurements }} </p>
-<p>Image : {{ x.drink_image }} </p>
-<p>How to make it : {{ x.instructions }} </p>
+{% endif %}
+{% if pages  %}
+{% for drink in pages.items %}
+<p>Drink name : {{ drink.drink_name }}</p>
+<p>Glass : {{ drink.glass }} </p>
+<p>first ingredient : {{ drink.first_ingredient }} {{ drink.first_ingredient__measurements }} </p>
+<p>second ingredient : {{ drink.second_ingredient }} {{ drink.second_ingredient__measurements }}</p>
+<p>third ingredient : {{ drink.third_ingredient }} {{ drink.third_ingredient__measurements }}</p>
+<p>fourth ingredient : {{ drink.fourth_ingredient }} {{ drink.fourth_ingredient__measurements }} </p>
+<p>Image : {{ drink.drink_image }} </p>
+<p>How to make it : {{ drink.instructions }} </p>
 {% endfor %}
+{% for page_num in pages.iter_pages(left_edge=1, right_edge=1 ,left_current=1, right_current=1) %}
+{% if page_num %}
+{% if page_num == pages.page %}
+<a class="button" href="{{ url_for('cocktails', page=page_num, ingredient=ingredient)}}">{{page_num}}</a>
+{% else %}
+<a class="button" href="{{ url_for('cocktails', page=page_num, ingredient=ingredient)}}">{{page_num}}</a>
+{% endif %}
+{% else %}
+...
+{% endif %}
 {% endfor %}
-{{ pagination.links }}
 {% endif %}
 </body>
 </html>

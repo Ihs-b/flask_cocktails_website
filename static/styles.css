@@ -12,3 +12,23 @@ body{
     background-color: plum;
 }
 
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+li {
+  float: left;
+    padding-left: 3%;
+}
+
+li a {
+  color: plum;
+  display: block;
+  padding: 10px;
+  background-color: black;
+  text-decoration: None;
+  font-size: large;
+}
