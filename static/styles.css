@@ -21,14 +21,19 @@ ul {
 
 li {
   float: left;
-    padding-left: 3%;
+padding-left: 3%;
 }
 
 li a {
-  color: plum;
+  color: white;
   display: block;
   padding: 10px;
-  background-color: black;
   text-decoration: None;
   font-size: large;
+}
+
+.button{
+    color: white;
+    text-decoration: None;
+    background-color: blue;
 }

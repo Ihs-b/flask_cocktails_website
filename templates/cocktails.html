@@ -23,7 +23,9 @@
     {{ form1.ok }}
 </form>
 {% endif %}
-{% if pages  %}
+{% if not pages  %}
+<h3> {{ message }} </h3>
+{% else %}
 {% for drink in pages.items %}
 <p>Drink name : {{ drink.drink_name }}</p>
 <p>Glass : {{ drink.glass }} </p>

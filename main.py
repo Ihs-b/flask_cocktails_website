@@ -41,7 +41,7 @@ cocktail_url = 'https://www.thecocktaildb.com/api/json/v1/1/'
 random_param = "random.php"
 ingredient_param = "filter.php?i="
 id_param = "lookup.php?i="
-letter_param = "search.php?f=d"
+letter_param = "search.php?f="
 
 
 def get_drink_api(param):
@@ -50,8 +50,8 @@ def get_drink_api(param):
     return data
 
 
-def post_db():
-    data = get_drink_api(param=letter_param)
+def post_db(letter):
+    data = get_drink_api(param=letter_param+letter)
     with app.app_context():
         # # elements = ['strDrink', "strGlass", "strIngredient1", "strIngredient2", "strIngredient3", "strIngredient4",
         #             "strInstructions", "strDrinkThumb",
@@ -68,6 +68,8 @@ def post_db():
             db.session.add(new_drink)
             db.session.commit()
 
+
+# post_db(letter="f")
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -86,6 +88,7 @@ def cocktails():
     drink_paginate = None
     ingredient = request.args.get("ingredient", type=str)
     page = request.args.get("page", default=1, type=int)
+    message = ""
     x = True
     if form.validate_on_submit():
         if "drink" in request.form:
@@ -100,13 +103,18 @@ def cocktails():
             # drink_request = select(Drinks).where(Drinks.first_ingredient == form1.ingredient.data)
             ingredient = form1.ingredient.data.title()
             drinks_request = Drinks.query.filter_by(first_ingredient=ingredient)
-            drink_paginate = drinks_request.paginate(page=page, per_page=1)
+            # print(dir(drinks_request))
+            print(drinks_request.first())
+            if drinks_request.first() is not None:
+                drink_paginate = drinks_request.paginate(page=page, per_page=1)
+            message = f"There isn't a cocktail with {ingredient}, Check your spelling or write a different one"
             # return render_template('cocktails.html', form=form, form1=form1, x=x, drinks=drinks_request)
     else:
         if ingredient:
             drinks_request = Drinks.query.filter_by(first_ingredient=ingredient)
             drink_paginate = drinks_request.paginate(page=page, per_page=1)
-    return render_template('cocktails.html', form=form, form1=form1, x=x, drinks=drinks_request, pages=drink_paginate, ingredient=ingredient)
+    return render_template('cocktails.html', form=form, form1=form1, x=x, drinks=drinks_request, pages=drink_paginate,
+                           ingredient=ingredient, message=message)
 
 
 @app.route("/yourcocktails", methods=['GET', 'POST'])
