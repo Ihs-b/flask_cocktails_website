@@ -104,7 +104,7 @@ def cocktails():
             ingredient = form1.ingredient.data.title()
             drinks_request = Drinks.query.filter_by(first_ingredient=ingredient)
             # print(dir(drinks_request))
-            print(drinks_request.first())
+            # print(drinks_request.first())
             if drinks_request.first() is not None:
                 drink_paginate = drinks_request.paginate(page=page, per_page=1)
             message = f"There isn't a cocktail with {ingredient}, Check your spelling or write a different one"
